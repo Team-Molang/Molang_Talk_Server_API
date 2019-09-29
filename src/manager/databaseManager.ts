@@ -1,13 +1,25 @@
 import { mysqlConfig } from '../config/env'
 const promiseMysql = require('promise-mysql')
 
-const pool = promiseMysql.createPool({
+let pool: any = null
+promiseMysql.createPool({
   connectionLimit: 20,
   host: mysqlConfig.MYSQL_HOST,
   user: mysqlConfig.MYSQL_USER,
   password: mysqlConfig.MYSQL_PASSWORD,
   database: 'molangtalk'
 })
+.then((res: any) => {
+  pool = res
+})
+.catch((err: Error) => {
+  // TODO: change logger
+  console.error(err)
+})
+
+export type InsertResult = {
+  insertId: number
+}
 
 export namespace mysql {
   export const connect = (fn: Function) => async (...args: any[]) => {
