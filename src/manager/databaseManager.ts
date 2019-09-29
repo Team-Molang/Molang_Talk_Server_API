@@ -1,4 +1,4 @@
-import { mysqlConfig } from '../config'
+import { mysqlConfig } from '../config/env'
 const promiseMysql = require('promise-mysql')
 
 const pool = promiseMysql.createPool({

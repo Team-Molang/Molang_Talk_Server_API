@@ -1,13 +1,20 @@
+require('dotenv').config()
+
 import express from 'express'
-import dotenv from 'dotenv'
+import * as swaggerUI from 'swagger-ui-express'
+import * as jsdoc from './config/swagger'
+import { serverConfig } from './config/env'
 import userCntr from './controller/userController'
 
 const app = express()
-dotenv.config()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/users', userCntr)
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(jsdoc.swagger, { deepLinking: true }))
+}
+
+app.use(`/${serverConfig.API_VERSION}/users`, userCntr)
 
 export default app
