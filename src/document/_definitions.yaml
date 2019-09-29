@@ -1,0 +1,13 @@
+---
+definitions:
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+        nullable: false
+        description: 에러타입
+      message:
+        type: string
+        nullable: false
+        description: 에러 메시지
