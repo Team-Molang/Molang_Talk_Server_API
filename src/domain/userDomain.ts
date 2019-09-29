@@ -1,6 +1,10 @@
-import { PointCode } from '../manager/pointManager'
 import * as userModel from '../model/userModel'
+import * as pointModel from '../model/pointModel'
 import ServerError from '../error/serverError'
+
+export enum PointCode {
+  JOIN
+}
 
 export interface IUser {
   id: number
@@ -29,7 +33,7 @@ export const join = async (user: IJoinUser): Promise<string> => {
 }
 
 export const addPoint = async (udid: string, pointCode: PointCode): Promise<void> => {
-  // TODO: 포인트 지급 with transaction
+  await pointModel.addPoint(udid, pointCode)
 }
 
 export const get = (udid: string) => {
