@@ -1,8 +1,11 @@
-import express from "express";
+import express from 'express'
+import userCntr from './controller/userController'
 
-const app = express();
+const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-export default app;
+app.use('/users', userCntr)
+
+export default app
