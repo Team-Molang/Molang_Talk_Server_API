@@ -17,7 +17,9 @@ router.post('/',
     valid(req)
     const { udid, nickName, gender, age } = req.body
     const joinResult = await userDomain.join({ udid, nickName, gender, age })
-    await userDomain.addPoint(joinResult.id, userDomain.PointCode.JOIN)
+    if (gender === 'M') {
+      await userDomain.addPoint(joinResult.id, userDomain.PointCode.JOIN)
+    }
     res.status(200).send({
       udid: joinResult.udid
     })
