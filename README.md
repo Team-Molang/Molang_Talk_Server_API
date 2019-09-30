@@ -28,5 +28,12 @@ CREATE TABLE tb_point_history (
     reg_date TIMESTAMP NOT NULL COMMENT '포인트 발생 일자'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_attendance (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+    user_id INT UNSIGNED NOT NULL COMMENT '회원의 PK',
+    attendance_date CHAR(6) NOT NULL COMMENT '출석일자 YYMMDD',
+    reg_date TIMESTAMP NOT NULL COMMENT '출석 일자'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
