@@ -3,7 +3,7 @@ import * as pointModel from '../model/pointModel'
 import ServerError from '../error/serverError'
 
 export enum PointCode {
-  JOIN
+  JOIN = 'JOIN'
 }
 
 export interface IUser {
@@ -23,17 +23,25 @@ export interface IJoinUser {
   age: number
 }
 
+export interface IJoinResult {
+  id: number
+  udid: string
+}
+
 const createUdid = (udid: string) => udid + new Date().getTime()
 
-export const join = async (user: IJoinUser): Promise<string> => {
+export const join = async (user: IJoinUser): Promise<IJoinResult> => {
   const udid = createUdid(user.udid)
   const result = await userModel.join(udid, user.nickName, user.gender, user.age)
   if (result.insertId < 1) throw new ServerError('새로운 회원 데이터를 생성하는 중 DB 에러가 발생하였습니다.')
-  return udid
+  return {
+    id: result.insertId,
+    udid
+  }
 }
 
-export const addPoint = async (udid: string, pointCode: PointCode): Promise<void> => {
-  await pointModel.addPoint(udid, pointCode)
+export const addPoint = async (id: number, pointCode: PointCode): Promise<void> => {
+  await pointModel.addPoint(id, pointCode)
 }
 
 export const get = (udid: string) => {

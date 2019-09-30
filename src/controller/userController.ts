@@ -16,10 +16,10 @@ router.post('/',
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     valid(req)
     const { udid, nickName, gender, age } = req.body
-    const rtnUdid = await userDomain.join({ udid, nickName, gender, age })
-    await userDomain.addPoint(rtnUdid, userDomain.PointCode.JOIN)
+    const joinResult = await userDomain.join({ udid, nickName, gender, age })
+    await userDomain.addPoint(joinResult.id, userDomain.PointCode.JOIN)
     res.status(200).send({
-      udid: rtnUdid
+      udid: joinResult.udid
     })
   })
 )
