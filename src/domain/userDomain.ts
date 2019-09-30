@@ -1,9 +1,12 @@
+import * as _ from 'lodash'
 import * as userModel from '../model/userModel'
 import * as pointModel from '../model/pointModel'
 import ServerError from '../error/serverError'
+import NotFoundError from '../error/notFoundError'
 
 export enum PointCode {
-  JOIN = 'JOIN'
+  JOIN = 'JOIN',
+  ATTENDANCE = 'ATTENDANCE'
 }
 
 export interface IUser {
@@ -13,7 +16,7 @@ export interface IUser {
   gender: string
   age: number
   point: number
-  regDate?: string
+  regDate: string
 }
 
 export interface IJoinUser {
@@ -44,7 +47,16 @@ export const addPoint = async (id: number, pointCode: PointCode): Promise<void> 
   await pointModel.addPoint(id, pointCode)
 }
 
-export const get = (udid: string) => {
-  // TODO: udid에 해당하는 회원 조회
-  // TODO: IUser 반환
+export const get = async (udid: string): Promise<IUser> => {
+  const user = await userModel.getUser(udid)
+  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+  return {
+    id: user.id,
+    udid: user.udid,
+    nickName: user.nick_name,
+    gender: user.gender,
+    age: user.age,
+    point: user.point,
+    regDate: user.reg_date
+  }
 }

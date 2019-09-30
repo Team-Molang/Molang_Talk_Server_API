@@ -17,3 +17,8 @@ export const join = mysql.connect((con: any, udid: string, nickName: string, gen
 			?,
 			sysdate()
 		)`, [udid, nickName, gender, age, 0]))
+
+export const getUser = mysql.connect(async (con: any, udid: string) => {
+  const userResult = await con.query(`SELECT * FROM tb_user WHERE udid = ?`, [udid])
+  return (userResult.length > 0) ? userResult[0] : null
+})

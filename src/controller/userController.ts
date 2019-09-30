@@ -1,5 +1,5 @@
 import express from 'express'
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 import * as userDomain from '../domain/userDomain'
 import asyncFn from '../manager/asyncManager'
 import valid from '../manager/validationManager'
@@ -17,17 +17,23 @@ router.post('/',
     valid(req)
     const { udid, nickName, gender, age } = req.body
     const joinResult = await userDomain.join({ udid, nickName, gender, age })
-    if (gender === 'M') {
-      await userDomain.addPoint(joinResult.id, userDomain.PointCode.JOIN)
-    }
+    await userDomain.addPoint(joinResult.id, userDomain.PointCode.JOIN)
     res.status(200).send({
       udid: joinResult.udid
     })
   })
 )
 
-router.get('/', (req, res, next) => {
-  console.log('get users')
-})
+router.get('/:udid',
+  [
+    param('udid').exists().isString()
+  ],
+  asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    valid(req)
+    const { udid } = req.params
+    const user = userDomain.get(udid)
+    res.status(200).send(await user)
+  })
+)
 
 export default router
