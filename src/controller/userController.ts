@@ -4,6 +4,8 @@ import * as userDomain from '../domain/userDomain'
 import asyncFn from '../manager/asyncManager'
 import valid from '../manager/validationManager'
 
+import attendanceController from './attendanceController'
+
 const router = express.Router()
 
 router.post('/',
@@ -35,5 +37,7 @@ router.get('/:udid',
     res.status(200).send(await user)
   })
 )
+
+router.use('/:udid/attendances', attendanceController)
 
 export default router
