@@ -1,8 +1,11 @@
+import moment from 'moment'
 import * as _ from 'lodash'
 import * as userModel from '../model/userModel'
 import * as pointModel from '../model/pointModel'
+import * as attendanceModel from '../model/attendanceModel'
 import ServerError from '../error/serverError'
 import NotFoundError from '../error/notFoundError'
+import BadRequestError from '../error/badRequest'
 
 export enum PointCode {
   JOIN = 'JOIN',
@@ -32,7 +35,9 @@ export interface IJoinResult {
 }
 
 export interface IAttendance {
-  attendanceDate: string
+  attendanceYear: string
+  attendanceMonth: string
+  attendanceDay: string
   regDate: string
 }
 
@@ -67,9 +72,30 @@ export const get = async (udid: string): Promise<IUser> => {
 }
 
 export const attendance = async (udid: string): Promise<void> => {
-  // TODO: 출석체크, 포인트 지급 하나의 트랜잭션
+  const attendanceYear = moment().format('YY')
+  const attendanceMonth = moment().format('MM')
+  const attendanceDay = moment().format('DD')
+  const user = await userModel.getUser(udid)
+  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+
+  const isAvailable = await attendanceModel.isAvailable(user.id, attendanceYear, attendanceMonth, attendanceDay)
+  if (!isAvailable) throw new BadRequestError('이미 출석하였습니다.')
+
+  await attendanceModel.attendance(user.id, PointCode.ATTENDANCE, attendanceYear, attendanceMonth, attendanceDay)
 }
 
 export const getAttendances = async (udid: string): Promise<IAttendance[]> => {
-  return []
+  const attendanceYear = moment().format('YY')
+  const attendanceMonth = moment().format('MM')
+
+  const user = await userModel.getUser(udid)
+  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+
+  const attendances = await attendanceModel.getAttendances(user.id, attendanceYear, attendanceMonth)
+  return _.map(attendances, (attendance: any) => ({
+    attendanceYear: attendance.attendance_year,
+    attendanceMonth: attendance.attendance_month,
+    attendanceDay: attendance.attendance_day,
+    regDate: attendance.reg_date
+  }))
 }
