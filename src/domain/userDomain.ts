@@ -31,6 +31,11 @@ export interface IJoinResult {
   udid: string
 }
 
+export interface IAttendance {
+  attendanceDate: string
+  regDate: string
+}
+
 const createUdid = (udid: string) => udid + new Date().getTime()
 
 export const join = async (user: IJoinUser): Promise<IJoinResult> => {
@@ -59,4 +64,12 @@ export const get = async (udid: string): Promise<IUser> => {
     point: user.point,
     regDate: user.reg_date
   }
+}
+
+export const attendance = async (udid: string): Promise<void> => {
+  // TODO: 출석체크, 포인트 지급 하나의 트랜잭션
+}
+
+export const getAttendances = async (udid: string): Promise<IAttendance[]> => {
+  return []
 }

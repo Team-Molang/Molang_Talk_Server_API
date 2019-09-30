@@ -38,6 +38,10 @@ router.get('/:udid',
   })
 )
 
-router.use('/:udid/attendances', attendanceController)
+router.use('/:udid/attendances',
+  [
+    param('udid').exists().isString()
+  ],
+  attendanceController)
 
 export default router
