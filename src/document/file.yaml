@@ -1,0 +1,29 @@
+---
+tags:
+  name: files
+  description: 파일 API  
+
+/files:
+  post:
+    summary: '파일 업로드'
+    tags: [files]
+    consumes:
+      - 'multipart/form-data'
+    parameters:
+      - name: file
+        in: formData
+        required: true
+        type: file
+        format: binary
+        description: 파일업로드
+    responses:
+      200:
+        description: 성공
+      400:
+        description: 잘못된 파라미터
+        schema:
+          $ref: '#definitions/Error'
+      500:
+        description: 서버 에러
+        schema:
+          $ref: '#definitions/Error'
