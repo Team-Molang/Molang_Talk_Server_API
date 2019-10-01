@@ -38,5 +38,15 @@ CREATE TABLE tb_attendance (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE UNIQUE INDEX idx_attendance_unique ON tb_attendance (user_id, attendance_year, attendance_month, attendance_day);
 
+CREATE TABLE tb_file (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+    originalname VARCHAR(200) NOT NULL COMMENT '원본 파일명',
+    mimetype VARCHAR(40) NULL COMMENT '마임타입',
+    size INT UNSIGNED NOT NULL COMMENT '파일 사이즈',
+    bucket VARCHAR(30) NULL COMMENT '파일 저장 버킷',
+    location VARCHAR(200) NOT NULL COMMENT '파일 위치',
+    reg_date TIMESTAMP NOT NULL COMMENT '파일 업로드 날짜'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
