@@ -2,9 +2,12 @@ import express from 'express'
 import aws from 'aws-sdk'
 import multer from 'multer'
 import multerS3 from 'multer-s3'
+import { body } from 'express-validator'
 import ServerError from '../error/serverError'
 import asyncFn from '../manager/asyncManager'
+import valid from '../manager/validationManager'
 import * as fileDomain from '../domain/fileDomain'
+import * as userDomain from '../domain/userDomain'
 
 const router = express.Router()
 const s3 = new aws.S3({
@@ -24,16 +27,20 @@ const upload = multer({
   })
 })
 
-// TODO: udid 같이 받아서 최소한의 검증 필요
 router.post('/',
 	upload.single('file'),
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    valid(req)
+    const udid = req.body.udid
+    await userDomain.get(udid)
     if (!req.file) throw new ServerError('파일 업로드에 실패하였습니다.')
+
     await fileDomain.save({
       originalname: req.file.originalname,
       mimetype: req.file.mimetype,
       size: req.file.size,
-      location: req.file.location
+      location: req.file.location,
+      udid: udid
     })
     res.status(200).send({
       url: req.file.location
