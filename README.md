@@ -43,7 +43,6 @@ CREATE TABLE tb_file (
     originalname VARCHAR(200) NOT NULL COMMENT '원본 파일명',
     mimetype VARCHAR(40) NULL COMMENT '마임타입',
     size INT UNSIGNED NOT NULL COMMENT '파일 사이즈',
-    bucket VARCHAR(30) NULL COMMENT '파일 저장 버킷',
     location VARCHAR(200) NOT NULL COMMENT '파일 위치',
     reg_date TIMESTAMP NOT NULL COMMENT '파일 업로드 날짜'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
