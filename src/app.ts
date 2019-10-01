@@ -6,6 +6,7 @@ import * as jsdoc from './config/swagger'
 import { errorHandler } from './handler'
 import { serverConfig } from './config/env'
 import userCntr from './controller/userController'
+import fileCntr from './controller/fileController'
 
 const app = express()
 app.use(express.json())
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(`/${serverConfig.API_VERSION}/users`, userCntr)
+app.use(`/${serverConfig.API_VERSION}/files`, fileCntr)
 
 app.use(errorHandler)
 export default app
