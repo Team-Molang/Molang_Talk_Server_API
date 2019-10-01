@@ -3,6 +3,15 @@ tags:
   name: files
   description: 파일 API  
 
+definitions:
+  FileUpload:
+    type: object
+    properties:
+      url:
+        type: string
+        nullable: false
+        description: 업로드 된 파일 url
+
 /files:
   post:
     summary: '파일 업로드'
@@ -19,6 +28,8 @@ tags:
     responses:
       200:
         description: 성공
+        schema:
+          $ref: '#definitions/FileUpload'
       400:
         description: 잘못된 파라미터
         schema:

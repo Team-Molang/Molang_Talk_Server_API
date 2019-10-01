@@ -24,6 +24,7 @@ const upload = multer({
   })
 })
 
+// TODO: udid 같이 받아서 최소한의 검증 필요
 router.post('/',
 	upload.single('file'),
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
