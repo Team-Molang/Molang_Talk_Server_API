@@ -38,6 +38,18 @@ router.get('/:udid',
   })
 )
 
+router.post('/:udid',
+  [
+    param('udid').exists().isString()
+  ],
+  asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    valid(req)
+    const { udid } = req.params
+    const user = await userDomain.get(udid)
+    // TODO: 회원정보 수정 (닉네임, 나이, 프로필 사진)
+  })
+)
+
 router.use('/:udid/attendances',
   [
     param('udid').exists().isString()
