@@ -38,15 +38,20 @@ router.get('/:udid',
   })
 )
 
-router.post('/:udid',
+router.put('/:udid',
   [
-    param('udid').exists().isString()
+    param('udid').exists().isString(),
+    body('nickName').exists().isString(),
+    body('age').exists().isInt()
   ],
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     valid(req)
     const { udid } = req.params
-    const user = await userDomain.get(udid)
-    // TODO: 회원정보 수정 (닉네임, 나이, 프로필 사진)
+    const { nickName, age, profile } = req.body
+    await userDomain.edit({
+      udid, nickName, age, profile
+    })
+    res.sendStatus(200)
   })
 )
 

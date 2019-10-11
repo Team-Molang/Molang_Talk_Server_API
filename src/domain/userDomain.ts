@@ -41,6 +41,13 @@ export interface IAttendance {
   regDate: string
 }
 
+export interface IEditUser {
+  udid: string
+  nickName: string
+  age: number
+  profile?: string
+}
+
 const createUdid = (udid: string) => udid + new Date().getTime()
 
 export const join = async (user: IJoinUser): Promise<IJoinResult> => {
@@ -98,4 +105,11 @@ export const getAttendances = async (udid: string): Promise<IAttendance[]> => {
     attendanceDay: attendance.attendance_day,
     regDate: attendance.reg_date
   }))
+}
+
+export const edit = async (editUser: IEditUser) => {
+  const user = await userModel.getUser(editUser.udid)
+  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+  const result = await userModel.updateUser(editUser.udid, editUser.nickName, editUser.age, editUser.profile)
+  if (result.affectedRows < 1) throw new ServerError('회원정보를 수정하는 중 DB 에러가 발생하였습니다.')
 }
