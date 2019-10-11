@@ -8,6 +8,7 @@ CREATE TABLE tb_user (
     nick_name VARCHAR(12) NOT NULL COMMENT '닉네임',
     gender ENUM('M', 'F') NOT NULL COMMENT '성별',
     age INT UNSIGNED NOT NULL COMMENT '나이',
+    profile VARCHAR(100) NULL COMMENT '프로필 사진',
     point INT UNSIGNED NOT NULL COMMENT '보유 포인트',
     reg_date TIMESTAMP NOT NULL COMMENT '가입 일자'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
