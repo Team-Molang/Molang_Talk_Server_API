@@ -154,6 +154,21 @@ definitions:
         required: false
         type: string
         description: 프로필 사진 url (파일 업로드 API response)
+    responses:
+      200:
+        description: 성공
+      400:
+        description: 잘못된 파라미터
+        schema:
+          $ref: '#definitions/Error'
+      404:
+        description: 회원정보 찾을 수 없음
+        schema:
+          $ref: '#definitions/Error'
+      500:
+        description: 서버 에러
+        schema:
+          $ref: '#definitions/Error'
 /users/{udid}/attendances:
   post:
     summary: '출석체크'
