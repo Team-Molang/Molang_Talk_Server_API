@@ -130,6 +130,30 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
+  put:
+    summary: '회원정보 수정'
+    tags: [users]
+    parameters:
+      - name: udid
+        in: path
+        required: true
+        type: string
+        description: 앱에대한 디바이스 고유 아이디 (토큰)
+      - name: nickName
+        in: formData
+        required: true
+        type: string
+        description: 앱에서 사용할 닉네임 (중복허용)
+      - name: age
+        in: formData
+        required: true
+        type: number
+        description: 나이
+      - name: profile
+        in: formData
+        required: false
+        type: string
+        description: 프로필 사진 url (파일 업로드 API response)
 /users/{udid}/attendances:
   post:
     summary: '출석체크'
