@@ -38,6 +38,10 @@ definitions:
         type: number
         nullable: false
         description: 보유 포인트
+      profile:
+        type: string
+        nullable: true
+        description: 회원 프로필 사진 URL
       regDate:
         type: number
         nullable: false
