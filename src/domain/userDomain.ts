@@ -19,6 +19,7 @@ export interface IUser {
   gender: string
   age: number
   point: number
+  profile?: string
   regDate: string
 }
 
@@ -74,6 +75,7 @@ export const get = async (udid: string): Promise<IUser> => {
     gender: user.gender,
     age: user.age,
     point: user.point,
+    profile: user.profile,
     regDate: user.reg_date
   }
 }
