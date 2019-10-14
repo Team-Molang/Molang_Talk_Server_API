@@ -45,7 +45,7 @@ CREATE TABLE tb_file (
     mimetype VARCHAR(40) NULL COMMENT '마임타입',
     size INT UNSIGNED NOT NULL COMMENT '파일 사이즈',
     location VARCHAR(200) NOT NULL COMMENT '파일 위치',
-    udid VARCHAR(100) NOT NULL UNIQUE COMMENT '디바이스 유니크 아이디',
+    udid VARCHAR(100) NOT NULL COMMENT '디바이스 유니크 아이디',
     reg_date TIMESTAMP NOT NULL COMMENT '파일 업로드 날짜'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
