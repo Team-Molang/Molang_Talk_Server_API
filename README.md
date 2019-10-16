@@ -49,5 +49,9 @@ CREATE TABLE tb_file (
     reg_date TIMESTAMP NOT NULL COMMENT '파일 업로드 날짜'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE INDEX index_point_history_01 ON tb_point_history(point_code);
+CREATE INDEX index_point_history_02 ON tb_point_history(user_id);
+
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
+
