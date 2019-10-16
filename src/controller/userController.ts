@@ -5,6 +5,7 @@ import asyncFn from '../manager/asyncManager'
 import valid from '../manager/validationManager'
 
 import attendanceController from './attendanceController'
+import pointController from './pointController'
 
 const router = express.Router()
 
@@ -60,5 +61,11 @@ router.use('/:udid/attendances',
     param('udid').exists().isString()
   ],
   attendanceController)
+
+router.use('/:udid/point',
+  [
+    param('udid').exists().isString()
+  ],
+  pointController)
 
 export default router
