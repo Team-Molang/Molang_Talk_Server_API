@@ -24,4 +24,17 @@ export namespace DML {
 	export const GET_MONTHLY_ATTENDANCE = 'SELECT * FROM tb_attendance WHERE user_id = ? AND attendance_year = ? AND attendance_month = ?'
 	export const INSERT_FILE = 'INSERT INTO tb_file (originalname, mimetype, size, location, udid, reg_date) VALUES (?, ?, ?, ?, ?, sysdate())'
 	export const UPDATE_USER = 'UPDATE tb_user SET nick_name = ?, age = ?, profile = ? WHERE udid = ?'
+	export const GET_POINT_HISTORY = `
+		SELECT
+			P.point_name,
+			PH.point,
+    	PH.reg_date
+		FROM
+			tb_point P
+			INNER JOIN tb_point_history PH ON P.point_code = PH.point_code
+		WHERE
+			PH.user_id = ?
+		ORDER BY
+			PH.id DESC
+	`
 }

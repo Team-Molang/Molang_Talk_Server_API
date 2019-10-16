@@ -49,6 +49,16 @@ export interface IEditUser {
   profile?: string
 }
 
+export interface IPoint {
+  point: number
+}
+
+export interface IPointHistory {
+  point: number
+  pointName: string
+  regDate: string
+}
+
 const createUdid = (udid: string) => udid + new Date().getTime()
 
 export const join = async (user: IJoinUser): Promise<IJoinResult> => {
@@ -84,8 +94,7 @@ export const attendance = async (udid: string): Promise<void> => {
   const attendanceYear = moment().format('YY')
   const attendanceMonth = moment().format('MM')
   const attendanceDay = moment().format('DD')
-  const user = await userModel.getUser(udid)
-  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+  const user = await get(udid)
 
   const isAvailable = await attendanceModel.isAvailable(user.id, attendanceYear, attendanceMonth, attendanceDay)
   if (!isAvailable) throw new BadRequestError('이미 출석하였습니다.')
@@ -96,9 +105,7 @@ export const attendance = async (udid: string): Promise<void> => {
 export const getAttendances = async (udid: string): Promise<IAttendance[]> => {
   const attendanceYear = moment().format('YY')
   const attendanceMonth = moment().format('MM')
-
-  const user = await userModel.getUser(udid)
-  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
+  const user = await get(udid)
 
   const attendances = await attendanceModel.getAttendances(user.id, attendanceYear, attendanceMonth)
   return _.map(attendances, (attendance: any) => ({
@@ -110,8 +117,22 @@ export const getAttendances = async (udid: string): Promise<IAttendance[]> => {
 }
 
 export const edit = async (editUser: IEditUser) => {
-  const user = await userModel.getUser(editUser.udid)
-  if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
-  const result = await userModel.updateUser(editUser.udid, editUser.nickName, editUser.age, editUser.profile)
+  const user = await get(editUser.udid)
+  const result = await userModel.updateUser(user.udid, editUser.nickName, editUser.age, editUser.profile)
   if (result.affectedRows < 1) throw new ServerError('회원정보를 수정하는 중 DB 에러가 발생하였습니다.')
+}
+
+export const point = async (udid: string): Promise<IPoint> => {
+  const user = await get(udid)
+  return { point: user.point }
+}
+
+export const pointHistories = async (udid: string): Promise<IPointHistory[]> => {
+  const user = await get(udid)
+  const histories = await pointModel.getPointHistories(user.id)
+  return _.map(histories, (history: any) => ({
+    point: history.point,
+    pointName: history.point_name,
+    regDate: history.reg_date
+  }))
 }

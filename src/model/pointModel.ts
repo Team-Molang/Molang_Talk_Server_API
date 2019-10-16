@@ -10,3 +10,6 @@ export const addPoint = mysql.transaction(async (con: any, id: number, pointCode
   await con.query(DML.INSERT_POINT_HISTORY, [id, pointCode, point])
   await con.query(DML.UPDATE_POINT, [point, id])
 })
+
+export const getPointHistories = mysql.connect((con: any, id: number) =>
+  con.query(DML.GET_POINT_HISTORY, [id]))
