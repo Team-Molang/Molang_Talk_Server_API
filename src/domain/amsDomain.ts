@@ -5,8 +5,8 @@ export interface IAms {
   os: string
   version: string
   alert: string
-  alertYn: boolean
-  forceUpdateYn: boolean
+  isAlert: boolean
+  isForceUpdate: boolean
 }
 
 export const get = async (os: string): Promise<IAms> => {
@@ -16,7 +16,7 @@ export const get = async (os: string): Promise<IAms> => {
     os: ams.os,
     version: ams.version,
     alert: ams.alert,
-    alertYn: ams.alert_yn === 'Y',
-    forceUpdateYn: ams.force_update_yn === 'Y'
+    isAlert: ams.alert_yn === 'Y',
+    isForceUpdate: ams.force_update_yn === 'Y'
   }
 }

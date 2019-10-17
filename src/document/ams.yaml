@@ -19,11 +19,11 @@ definitions:
         type: string
         nullable: false
         description: 앱 진입 경고 메시지
-      alertYn:
+      isAlert:
         type: boolean
         nullable: false
         description: 앱 진입 경고 메시지 노출 여부
-      forceUpdateYn:
+      isForceUpdate:
         type: boolean
         nullable: false
         description: 강제 업데이트 여부
