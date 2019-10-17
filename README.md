@@ -49,8 +49,19 @@ CREATE TABLE tb_file (
     reg_date TIMESTAMP NOT NULL COMMENT '파일 업로드 날짜'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_ams (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+    os ENUM('AOS', 'IOS') NOT NULL COMMENT 'os 타입',
+    version VARCHAR(20) NOT NULL COMMENT 'os의 최신 버전',
+    alert VARCHAR(200) NULL COMMENT '경보 메시지',
+    alert_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '경보 사용여부',
+    force_update_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '강제 업데이트 여부',
+    reg_date TIMESTAMP NOT NULL COMMENT '등록 날짜'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE INDEX index_point_history_01 ON tb_point_history(point_code);
 CREATE INDEX index_point_history_02 ON tb_point_history(user_id);
+CREATE INDEX index_ams_01 ON tb_ams(os);
 
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
