@@ -1,0 +1,56 @@
+---
+tags:
+  name: ams
+  description: AMS API  
+
+definitions:
+  Ams:
+    type: object
+    properties:
+      os:
+        type: string
+        nullable: false
+        description: os 종류
+      version:
+        type: string
+        nullable: false
+        description: os version
+      alert:
+        type: string
+        nullable: false
+        description: 앱 진입 경고 메시지
+      alertYn:
+        type: boolean
+        nullable: false
+        description: 앱 진입 경고 메시지 노출 여부
+      forceUpdateYn:
+        type: boolean
+        nullable: false
+        description: 강제 업데이트 여부
+
+/ams/{os}:
+  get:
+    summary: 'AMS 조회'
+    tags: [ams]
+    parameters:
+      - name: os
+        in: path
+        required: true
+        type: string
+        enum:
+          - AOS
+          - IOS
+        description: os 타입
+    responses:
+      200:
+        description: 성공
+        schema:
+          $ref: '#definitions/Ams'
+      400:
+        description: 잘못된 파라미터
+        schema:
+          $ref: '#definitions/Error'
+      500:
+        description: 서버 에러
+        schema:
+          $ref: '#definitions/Error'
