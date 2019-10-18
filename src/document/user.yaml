@@ -302,3 +302,35 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
+/users/{udid}/pushkey:
+  put:
+    summary: 푸시 키 등록
+    tags: [users]
+    consumes:
+      - 'application/x-www-form-urlencoded'
+    parameters:
+      - name: udid
+        in: path
+        required: true
+        type: string
+        description: 앱에대한 디바이스 고유 아이디 (토큰)
+      - name: key
+        in: formData
+        required: true
+        type: string
+        description: 푸시 발송을 위한 키
+    responses:
+      200:
+        description: 성공
+      400:
+        description: 잘못된 파라미터
+        schema:
+          $ref: '#definitions/Error'
+      404:
+        description: 회원정보 찾을 수 없음
+        schema:
+          $ref: '#definitions/Error'
+      500:
+        description: 서버 에러
+        schema:
+          $ref: '#definitions/Error'
