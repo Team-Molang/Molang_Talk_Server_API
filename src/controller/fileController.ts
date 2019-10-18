@@ -2,7 +2,7 @@ import express from 'express'
 import aws from 'aws-sdk'
 import multer from 'multer'
 import multerS3 from 'multer-s3'
-import { body } from 'express-validator'
+import { header } from 'express-validator'
 import ServerError from '../error/serverError'
 import asyncFn from '../manager/asyncManager'
 import valid from '../manager/validationManager'
@@ -26,13 +26,15 @@ const upload = multer({
     }
   })
 })
-
 router.post('/',
+  [
+    header('authorization').exists()
+  ],
 	upload.single('file'),
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     valid(req)
-    const udid = req.body.udid
-    await userDomain.get(udid)
+    const udid = req.headers.authorization
+    await userDomain.existCheck(udid)
     if (!req.file) throw new ServerError('파일 업로드에 실패하였습니다.')
 
     await fileDomain.save({

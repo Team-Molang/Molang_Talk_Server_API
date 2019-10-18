@@ -7,10 +7,14 @@ definitions:
   JoinUser:
     type: object
     properties:
-      udid:
+      authorization:
         type: string
         nullable: false
         description: 회원 가입 후 UDID
+      id:
+        type: number
+        nullable: false
+        description: 회원 ID
   User:
     type: object
     properties:
@@ -18,10 +22,6 @@ definitions:
         type: number
         nullable: false
         description: 회원 번호
-      udid:
-        type: string
-        nullable: false
-        description: 회원 가입 후 UDID
       nickName:
         type: string
         nullable: false
@@ -129,16 +129,21 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
-/users/{udid}:
+/users/{id}:
   get:
     summary: '회원정보 조회'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
     responses:
       200:
         description: 성공
@@ -160,11 +165,16 @@ definitions:
     summary: '회원정보 수정'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
       - name: nickName
         in: formData
         required: true
@@ -195,16 +205,21 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
-/users/{udid}/attendances:
+/users/{id}/attendances:
   post:
     summary: '출석체크'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
     responses:
       200:
         description: 성공
@@ -224,11 +239,16 @@ definitions:
     summary: '이번달 출석현황 조회'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
     responses:
       200:
         description: 성공
@@ -247,16 +267,21 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
-/users/{udid}/point:
+/users/{id}/point:
   get:
     summary: '포인트 조회'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
     responses:
       200:
         description: 성공
@@ -274,16 +299,21 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
-/users/{udid}/point/histories:
+/users/{id}/point/histories:
   get:        
     summary: '포인트 목록 조회'
     tags: [users]
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
     responses:
       200:
         description: 성공
@@ -302,18 +332,23 @@ definitions:
         description: 서버 에러
         schema:
           $ref: '#definitions/Error'
-/users/{udid}/pushkey:
+/users/{id}/pushkey:
   put:
     summary: 푸시 키 등록
     tags: [users]
     consumes:
       - 'application/x-www-form-urlencoded'
     parameters:
-      - name: udid
+      - name: id
         in: path
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 회원 아이디
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
       - name: key
         in: formData
         required: true

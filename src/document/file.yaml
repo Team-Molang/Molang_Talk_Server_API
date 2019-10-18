@@ -19,11 +19,11 @@ definitions:
     consumes:
       - 'multipart/form-data'
     parameters:
-      - name: udid
-        in: formData
+      - name: Authorization
+        in: header
         required: true
         type: string
-        description: 앱에대한 디바이스 고유 아이디 (토큰)
+        description: 인증토큰
       - name: file
         in: formData
         required: true
