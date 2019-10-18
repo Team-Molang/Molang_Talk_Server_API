@@ -136,3 +136,8 @@ export const pointHistories = async (udid: string): Promise<IPointHistory[]> => 
     regDate: history.reg_date
   }))
 }
+
+export const addPushKey = async (udid: string, key: string) => {
+  const user = await get(udid)
+  await userModel.updatePushKey(user.id, key)
+}

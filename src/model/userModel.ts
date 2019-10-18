@@ -9,5 +9,8 @@ export const getUser = mysql.connect(async (con: any, udid: string) => {
   return (userResult.length > 0) ? userResult[0] : null
 })
 
-export const updateUser = mysql.connect(async (con: any, udid: string, nickName: string, age: number, profile: string) =>
+export const updateUser = mysql.connect((con: any, udid: string, nickName: string, age: number, profile: string) =>
   con.query(DML.UPDATE_USER, [nickName, age, profile, udid]))
+
+export const updatePushKey = mysql.connect((con: any, id: number, key: string) =>
+  con.query(DML.UPDATE_PUSH_KEY, [key, id]))

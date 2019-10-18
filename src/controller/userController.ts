@@ -56,6 +56,19 @@ router.put('/:udid',
   })
 )
 
+router.put('/:udid/pushkey',
+  [
+    param('udid').exists().isString(),
+    body('key').exists().isString()
+  ],
+  asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    valid(req)
+    const [udid, key] = [req.params.udid, req.body.key]
+    await userDomain.addPushKey(udid, key)
+    res.sendStatus(200)
+  })
+)
+
 router.use('/:udid/attendances',
   [
     param('udid').exists().isString()

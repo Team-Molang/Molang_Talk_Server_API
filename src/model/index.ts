@@ -38,4 +38,5 @@ export namespace DML {
 			PH.id DESC
 	`
 	export const GET_AMS = 'SELECT * FROM tb_ams WHERE os = ? ORDER BY id DESC LIMIT 1'
+	export const UPDATE_PUSH_KEY = 'UPDATE tb_user SET push_key = ? WHERE id = ?'
 }
