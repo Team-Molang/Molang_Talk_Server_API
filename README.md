@@ -9,6 +9,7 @@ CREATE TABLE tb_user (
     gender ENUM('M', 'F') NOT NULL COMMENT '성별',
     age INT UNSIGNED NOT NULL COMMENT '나이',
     profile VARCHAR(100) NULL COMMENT '프로필 사진',
+    push_key VARCHAR(150) NULL COMMENT '푸시 발송 키',
     point INT UNSIGNED NOT NULL COMMENT '보유 포인트',
     reg_date TIMESTAMP NOT NULL COMMENT '가입 일자'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -66,3 +67,13 @@ CREATE INDEX index_ams_01 ON tb_ams(os);
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
 
+# version별 개발 방향
+v1 : 
+    RDB 베이스의 매칭 시스템
+    MongoDB 베이스의 채팅 메시지
+    메인은 폴링, 서브로 FCM 기반의 알림
+v2 :
+    Queue 기반의 매칭 시스템으로 고도화
+    Socketio 로 채팅 서버 분리 (Master / Slave)
+    
+    
