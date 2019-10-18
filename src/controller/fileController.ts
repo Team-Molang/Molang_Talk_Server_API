@@ -5,7 +5,7 @@ import multerS3 from 'multer-s3'
 import { header } from 'express-validator'
 import ServerError from '../error/serverError'
 import asyncFn from '../manager/asyncManager'
-import valid from '../manager/validationManager'
+import { valid } from '../handler'
 import * as fileDomain from '../domain/fileDomain'
 import * as userDomain from '../domain/userDomain'
 
@@ -28,11 +28,11 @@ const upload = multer({
 })
 router.post('/',
   [
-    header('authorization').exists()
+    header('authorization').exists(),
+    valid()
   ],
 	upload.single('file'),
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    valid(req)
     const udid = req.headers.authorization
     await userDomain.existCheck(udid)
     if (!req.file) throw new ServerError('파일 업로드에 실패하였습니다.')
