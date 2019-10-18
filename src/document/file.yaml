@@ -39,6 +39,10 @@ definitions:
         description: 잘못된 파라미터
         schema:
           $ref: '#definitions/Error'
+      401:
+        description: 권한 없음
+        schema:
+          $ref: '#definitions/Error'  
       500:
         description: 서버 에러
         schema:
