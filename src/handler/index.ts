@@ -22,9 +22,7 @@ export const errorHandler = (err: Error, req: express.Request, res: express.Resp
   })
 }
 
-export const authHandler = asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  // TODO:
-})
+// TODO: 추후에 권한 체크 로직 분리 생각 해보기
 
 export const valid = () =>
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
