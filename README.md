@@ -60,9 +60,19 @@ CREATE TABLE tb_ams (
     reg_date TIMESTAMP NOT NULL COMMENT '등록 날짜'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_matching (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+    user_id INT UNSIGNED NOT NULL COMMENT '회원의 PK',
+    type ENUM('EVERYONE', 'DIFFERENT_GENDER') NOT NULL COMMENT '매칭 타입',
+    gender ENUM('M', 'F') NOT NULL COMMENT '성별',
+    status ENUM('WAIT', 'MATCHING', 'CANCEL') NOT NULL DEFAULT 'WAIT' COMMENT '매칭 상태',
+    reg_date TIMESTAMP NOT NULL COMMENT '매칭신청 날짜'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE INDEX index_point_history_01 ON tb_point_history(point_code);
 CREATE INDEX index_point_history_02 ON tb_point_history(user_id);
 CREATE INDEX index_ams_01 ON tb_ams(os);
+CREATE INDEX index_matching_01 ON tb_matching(type, gender, status);
 
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
