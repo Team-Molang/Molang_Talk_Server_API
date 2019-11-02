@@ -1,0 +1,44 @@
+---
+tags:
+  name: matching
+  description: 매칭 API  
+
+/matching:
+  post:
+    summary: '매칭신청'
+    tags: [matching]
+    consumes:
+      - 'application/x-www-form-urlencoded'
+    parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: 인증토큰
+      - name: type
+        in: formData
+        required: true
+        type: string
+        enum: ['EVERYONE', 'DIFFERENT_GENDER']
+        description: 매칭타입
+      - name: userId
+        in: formData
+        required: true
+        type: string
+        description: 회원 아이디
+      
+    responses:
+      200:
+        description: 성공
+      400:
+        description: 잘못된 파라미터
+        schema:
+          $ref: '#definitions/Error'
+      401:
+        description: 권한 없음
+        schema:
+          $ref: '#definitions/Error'  
+      500:
+        description: 서버 에러
+        schema:
+          $ref: '#definitions/Error'
