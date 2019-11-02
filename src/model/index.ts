@@ -42,5 +42,5 @@ export namespace DML {
 	export const UPDATE_PUSH_KEY = 'UPDATE tb_user SET push_key = ? WHERE id = ?'
 
 	export const GET_EVERYONE_MATCHING = 'SELECT * FROM tb_matching WHERE type = "EVERYONE" AND status = "WAIT" AND user_id != ? LIMIT 1 '
-	export const GET_DIFFERENT_GENDER_MATCHING = 'SELECT * FROM tb_matching WHERE status = "WAIT" AND user_id != ? AND gender = ? LIMIT 1 '
+	export const GET_DIFFERENT_GENDER_MATCHING = 'SELECT * FROM tb_matching WHERE status = "WAIT" AND user_id != ? AND gender != ? LIMIT 1 '
 }
