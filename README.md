@@ -76,6 +76,8 @@ CREATE INDEX index_matching_01 ON tb_matching(type, gender, status);
 
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('JOIN', '회원가입 포인트', 300, sysdate());
 INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('ATTENDANCE', '출석체크 포인트', 100, sysdate());
+INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('MATCHING_DIFFERENT_GENDER', '이성 매칭 신청', -300, sysdate());
+INSERT INTO tb_point (point_code, point_name, point, reg_date) VALUES ('MATCHING_EVERYONE', '아무나 매칭 신청', -100, sysdate());
 
 # version별 개발 방향
 v1 : 
