@@ -43,4 +43,20 @@ export namespace DML {
 
 	export const GET_EVERYONE_MATCHING = 'SELECT * FROM tb_matching WHERE type = "EVERYONE" AND status = "WAIT" AND user_id != ? LIMIT 1 '
 	export const GET_DIFFERENT_GENDER_MATCHING = 'SELECT * FROM tb_matching WHERE status = "WAIT" AND user_id != ? AND gender != ? LIMIT 1 '
+	export const INSERT_NEW_MATCHING = `
+		INSERT INTO tb_matching (
+			user_id,
+			type,
+			gender,
+			status,
+			reg_date
+		) VALUES (
+			?,
+			?,
+			?,
+			'WAIT',
+			sysdate()
+		)
+	`
+	export const GET_MY_MATCHING = 'SELECT * FROM tb_matching WHERE status = "WAIT" AND user_id = ?'
 }

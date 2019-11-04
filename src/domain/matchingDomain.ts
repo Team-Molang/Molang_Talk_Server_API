@@ -15,6 +15,8 @@ enum PointCode {
 }
 
 export const matching = async (userId: string, udid: string, type: string) => {
+  const isMatching = await matchingModel.isMatching(userId)
+  if (isMatching) throw new BadRequestError('이미 매칭 신청중입니다.')
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
   const user = await userDomain.get(userId, udid)
   const matchingPoint = await pointModel.getDefPoint(pointCode)
@@ -22,6 +24,6 @@ export const matching = async (userId: string, udid: string, type: string) => {
   if (type === 'DIFFERENT_GENDER') {
     await matchingModel.matchingDifferentGender(userId, user.gender)
   } else {
-    await matchingModel.matchingEveryOne(userId)
+    await matchingModel.matchingEveryOne(userId, user.gender)
   }
 }
