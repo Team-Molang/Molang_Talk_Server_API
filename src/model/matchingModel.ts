@@ -15,20 +15,26 @@ enum PointCode {
 
 export const matching = mysql.connect(async (con: any, userId: string, udid: string, type: string) => {
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
-  const matchingQuery = (type === 'DIFFERENT_GENDER') ? DML.GET_DIFFERENT_GENDER_MATCHING : DML.GET_EVERYONE_MATCHING
   const matchingPoint = await pointModel.getDefPoint(pointCode)
 
   const user = await userDomain.get(userId, udid)
   if (user.point < (-matchingPoint)) throw new BadRequestError('매칭 신청에 필요한 포인트가 부족합니다.')
 
-  const matchingTarget = await con.query(matchingQuery, [userId])
+  const matchingTarget = (type === 'DIFFERENT_GENDER') ?
+    await con.query(DML.GET_DIFFERENT_GENDER_MATCHING, [userId, user.gender]) :
+    await con.query(DML.GET_EVERYONE_MATCHING, [userId])
+
   if (matchingTarget.length < 1) {
-    await con.query(DML.INSERT_NEW_MATCHING, [userId, user.gender, type])
+    await con.query(DML.INSERT_NEW_MATCHING, [userId, type, user.gender])
   } else {
     const targetUser = await userModel.getUser(matchingTarget[0].user_id)
-    if (!targetUser || targetUser.point < (-matchingPoint)) { // 상대방이 없거나 포인트가 부족할 경우 제외시키고 대기큐에 insert
-      // TODO: 둘중 한명이라도 포인트 없으면 실패
+    if (!targetUser || targetUser.point < (-matchingPoint)) {
+      console.log('상대방 포인트 부족')
+      // 상대방이 없거나 포인트가 부족할 경우 제외시키고 대기큐에 insert
     } else {
+      console.log('포인트 차감 해야됨')
+      console.log(user.id)
+      console.log(targetUser.id)
       // TODO: 둘다 포인트 차감
       // TODO: 둘다 매칭 완료로 변경
     }
