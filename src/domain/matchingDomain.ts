@@ -20,3 +20,10 @@ export const isMatching = async (userId: string, udid: string) => {
   const isMatching = await matchingModel.isMatching(user.id)
   return isMatching
 }
+
+export const cancel = async (userId: string, udid: string) => {
+  const user = await userDomain.get(userId, udid)
+  const isMatching = await matchingModel.isMatching(user.id)
+  if (!isMatching) throw new BadRequestError('취소할 매칭이 없습니다.')
+  await matchingModel.cancelMatching(user.id)
+}

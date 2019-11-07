@@ -43,8 +43,10 @@ router.delete('/',
     valid()
   ],
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // TODO: 매칭 취소처리
-    res.status(200).send({})
+    const userId = req.body.userId
+    const udid = req.headers.authorization
+    await matchingDomain.cancel(userId, udid)
+    res.sendStatus(200)
   })
 )
 

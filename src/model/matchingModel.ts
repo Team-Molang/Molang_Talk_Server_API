@@ -47,3 +47,7 @@ export const isMatching = mysql.connect(async (con: any, userId: number) => {
   const myMatching = await con.query(DML.GET_MY_MATCHING, [userId])
   return (myMatching.length > 0)
 })
+
+export const cancelMatching = mysql.connect(async (con: any, userId: number) => {
+  await con.query(DML.UPDATE_CANCEL_MATCHING, [userId])
+})
