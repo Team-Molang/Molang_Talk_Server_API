@@ -13,7 +13,7 @@ enum PointCode {
 	MATCHING_DIFFERENT_GENDER = 'MATCHING_DIFFERENT_GENDER'
 }
 
-export const matching = mysql.connect(async (con: any, userId: string, udid: string, type: string) => {
+export const matching = mysql.transaction(async (con: any, userId: string, udid: string, type: string) => {
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
   const matchingPoint = await pointModel.getDefPoint(pointCode)
 
