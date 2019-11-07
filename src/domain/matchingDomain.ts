@@ -10,9 +10,10 @@ import * as pointModel from '../model/pointModel'
 import * as matchingModel from '../model/matchingModel'
 
 export const matching = async (userId: string, udid: string, type: string) => {
-  const isMatching = await matchingModel.isMatching(userId)
+  const user = await userDomain.get(userId, udid)
+  const isMatching = await matchingModel.isMatching(user.id)
   if (isMatching) throw new BadRequestError('이미 매칭 신청중입니다.')
-  await matchingModel.matching(userId, udid, type)
+  await matchingModel.matching(user.id, udid, type)
 }
 
 export const isMatching = async (userId: string, udid: string) => {
