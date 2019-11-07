@@ -28,15 +28,17 @@ export const matching = mysql.connect(async (con: any, userId: string, udid: str
     await con.query(DML.INSERT_NEW_MATCHING, [userId, type, user.gender])
   } else {
     const targetUser = await userModel.getUser(matchingTarget[0].user_id)
-    if (!targetUser || targetUser.point < (-matchingPoint)) {
-      console.log('상대방 포인트 부족')
-      // 상대방이 없거나 포인트가 부족할 경우 제외시키고 대기큐에 insert
+    if (targetUser.point < (-matchingPoint)) {
+      await con.query(DML.UPDATE_CANCEL_MATCHING, [targetUser.id])
+      await con.query(DML.INSERT_NEW_MATCHING, [userId, type, user.gender])
     } else {
-      console.log('포인트 차감 해야됨')
-      console.log(user.id)
-      console.log(targetUser.id)
-      // TODO: 둘다 포인트 차감
-      // TODO: 둘다 매칭 완료로 변경
+      await pointModel.addPoint(user.id, pointCode)
+      await pointModel.addPoint(targetUser.id, pointCode)
+      await con.query(DML.INSERT_MATCHING, [userId, type, user.gender])
+      await con.query(DML.UPDATE_MATCHING, [targetUser.id])
+
+      // TODO: mongodb에 채팅방 insert
+      // TODO: 양쪽 모두에게 push 발송 (방번호)
     }
   }
 })

@@ -59,4 +59,21 @@ export namespace DML {
 		)
 	`
 	export const GET_MY_MATCHING = 'SELECT * FROM tb_matching WHERE status = "WAIT" AND user_id = ?'
+	export const UPDATE_CANCEL_MATCHING = 'UPDATE tb_matching SET status = "CANCEL" WHERE status = "WAIT" AND user_id = ?'
+	export const UPDATE_MATCHING = 'UPDATE tb_matching SET status = "MATCHING" WHERE status = "WAIT" AND user_id = ?'
+	export const INSERT_MATCHING = `
+		INSERT INTO tb_matching (
+			user_id,
+			type,
+			gender,
+			status,
+			reg_date
+		) VALUES (
+			?,
+			?,
+			?,
+			'MATCHING',
+			sysdate()
+		)
+	`
 }
