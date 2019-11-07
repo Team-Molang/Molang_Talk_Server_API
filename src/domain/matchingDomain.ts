@@ -14,3 +14,9 @@ export const matching = async (userId: string, udid: string, type: string) => {
   if (isMatching) throw new BadRequestError('이미 매칭 신청중입니다.')
   await matchingModel.matching(userId, udid, type)
 }
+
+export const isMatching = async (userId: string, udid: string) => {
+  const user = await userDomain.get(userId, udid)
+  const isMatching = await matchingModel.isMatching(user.id)
+  return isMatching
+}

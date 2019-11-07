@@ -1,5 +1,5 @@
 import express from 'express'
-import { param, header, body } from 'express-validator'
+import { param, header, body, query } from 'express-validator'
 import asyncFn from '../manager/asyncManager'
 import { valid } from '../handler'
 import * as matchingDomain from '../domain/matchingDomain'
@@ -23,14 +23,16 @@ router.post('/',
 
 router.get('/',
   [
-    body('userId').exists(),
+    query('userId').exists(),
     header('authorization').exists(),
     valid()
   ],
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // TODO: 매칭 상태 조회
-    // TODO: 이 API는 폴링으로 사용될 예정
-    res.status(200).send({})
+    const userId = req.query.userId
+    const udid = req.headers.authorization
+    res.status(200).send({
+      isMatching: await matchingDomain.isMatching(userId, udid)
+    })
   })
 )
 
