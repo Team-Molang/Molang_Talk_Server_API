@@ -1,27 +1,26 @@
-import { mysqlConfig } from '../config/env'
+import mongoose from 'mongoose'
+import { mysqlConfig, mongoConfig } from '../config/env'
 const promiseMysql = require('promise-mysql')
 
 let pool: any = null
-promiseMysql.createPool({
-  connectionLimit: 20,
-  host: mysqlConfig.MYSQL_HOST,
-  user: mysqlConfig.MYSQL_USER,
-  password: mysqlConfig.MYSQL_PASSWORD,
-  database: 'molangtalk'
-})
-.then((res: any) => {
-  pool = res
-})
-.catch((err: Error) => {
-  // TODO: change logger
-  console.error(err)
-})
 
-export type InsertResult = {
-  insertId: number
+export const init = async () => {
+  pool = await promiseMysql.createPool({
+    connectionLimit: 20,
+    host: mysqlConfig.MYSQL_HOST,
+    user: mysqlConfig.MYSQL_USER,
+    password: mysqlConfig.MYSQL_PASSWORD,
+    database: 'molangtalk'
+  })
+
+  await mongoose.connect(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
 }
 
 export namespace mysql {
+
   export const connect = (fn: Function) => async (...args: any[]) => {
     const con: any = await pool.getConnection()
     const result = await fn(con, ...args).catch((error: Error) => {

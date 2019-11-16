@@ -3,6 +3,7 @@ require('dotenv').config()
 import express from 'express'
 import * as swaggerUI from 'swagger-ui-express'
 import * as jsdoc from './config/swagger'
+import * as databaseManager from './manager/databaseManager'
 import { errorHandler } from './handler'
 import { serverConfig } from './config/env'
 import userCntr from './controller/userController'
@@ -13,6 +14,10 @@ import matchingCntr from './controller/matchingController'
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+databaseManager.init()
+.then(() => { console.log('success init database') })
+.catch((err) => { console.error('failed init database' + err) })
 
 if (process.env.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(jsdoc.swagger, { deepLinking: true }))
