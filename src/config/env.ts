@@ -8,3 +8,9 @@ export const mysqlConfig = {
   MYSQL_USER: (process.env.MYSQL_USER) ? process.env.MYSQL_USER : '',
   MYSQL_PASSWORD: (process.env.MYSQL_PASSWORD) ? process.env.MYSQL_PASSWORD : ''
 }
+
+export const mongoConfig = {
+  MONGO_HOST: (process.env.MONGO_HOST) ? process.env.MONGO_HOST : 'localhost',
+  MONGO_USER: (process.env.MONGO_USER) ? process.env.MONGO_USER : '',
+  MONGO_PASSWORD: (process.env.MONGO_PASSWORD) ? process.env.MONGO_PASSWORD : ''
+}
