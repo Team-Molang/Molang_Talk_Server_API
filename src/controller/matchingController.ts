@@ -17,7 +17,7 @@ router.post('/',
     const { userId, type } = req.body
     const udid = req.headers.authorization
     await matchingDomain.matching(userId, udid, type)
-    res.sendStatus(200)
+    res.status(200).send({})
   })
 )
 
@@ -46,7 +46,7 @@ router.delete('/',
     const userId = req.body.userId
     const udid = req.headers.authorization
     await matchingDomain.cancel(userId, udid)
-    res.sendStatus(200)
+    res.status(200).send({})
   })
 )
 

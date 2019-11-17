@@ -55,7 +55,7 @@ router.put('/:id',
     const udid = req.headers.authorization
     const { nickName, age, profile } = req.body
     await userDomain.edit(id, udid, { nickName, age, profile })
-    res.sendStatus(200)
+    res.status(200).send({})
   })
 )
 
@@ -85,7 +85,7 @@ router.put('/:id/pushkey',
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const [id, udid, key] = [req.params.id, req.headers.authorization, req.body.key]
     await userDomain.addPushKey(id, udid, key)
-    res.sendStatus(200)
+    res.status(200).send({})
   })
 )
 

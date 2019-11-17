@@ -14,7 +14,7 @@ router.post('/', asyncFn(async (req: express.Request, res: express.Response, nex
   const id = req.params.id
   const udid = req.headers.authorization
   await userDomain.attendance(id, udid)
-  res.sendStatus(200)
+  res.status(200).send({})
 }))
 
 export default router

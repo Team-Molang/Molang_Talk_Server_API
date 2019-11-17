@@ -201,6 +201,8 @@ definitions:
     responses:
       200:
         description: 성공
+        schema:
+          $ref: '#definitions/Ok'
       400:
         description: 잘못된 파라미터
         schema:
@@ -235,6 +237,8 @@ definitions:
     responses:
       200:
         description: 성공
+        schema:
+          $ref: '#definitions/Ok'
       400:
         description: 잘못된 파라미터 또는 잘못된 요청
         schema:
@@ -385,6 +389,8 @@ definitions:
     responses:
       200:
         description: 성공
+        schema:
+          $ref: '#definitions/Ok'
       400:
         description: 잘못된 파라미터
         schema:

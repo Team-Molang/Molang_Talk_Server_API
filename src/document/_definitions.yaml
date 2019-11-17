@@ -11,3 +11,5 @@ definitions:
         type: string
         nullable: false
         description: 에러 메시지
+  Ok:
+    type: object
