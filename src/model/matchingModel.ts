@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { mysql } from '../manager/databaseManager'
 import ServerError from '../error/serverError'
 import BadRequestError from '../error/badRequest'
@@ -12,6 +13,15 @@ enum PointCode {
 	MATCHING_EVERYONE = 'MATCHING_EVERYONE',
 	MATCHING_DIFFERENT_GENDER = 'MATCHING_DIFFERENT_GENDER'
 }
+
+const ChattingSchema = new mongoose.Schema({
+  user_ids: [Number],
+  messages: [new mongoose.Schema({
+    type: String,
+    data: String,
+    datetime: String
+  })]
+})
 
 export const matching = mysql.transaction(async (con: any, userId: string, udid: string, type: string) => {
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
