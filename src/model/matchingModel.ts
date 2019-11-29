@@ -21,7 +21,11 @@ const ChattingSchema = new mongoose.Schema({
     data: String,
     datetime: String
   })]
+}, {
+  versionKey: false
 })
+
+const ChattingModel = mongoose.model('chatting', ChattingSchema, 'chatting')
 
 export const matching = mysql.transaction(async (con: any, userId: string, udid: string, type: string) => {
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
