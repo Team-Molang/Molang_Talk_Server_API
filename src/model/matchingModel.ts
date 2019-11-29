@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { mysql } from '../manager/databaseManager'
+import mongoose from 'mongoose'
+import { mysql, mongo } from '../manager/databaseManager'
 import ServerError from '../error/serverError'
 import BadRequestError from '../error/badRequest'
 import NotFoundError from '../error/notFoundError'
@@ -25,7 +25,7 @@ const ChattingSchema = new mongoose.Schema({
   versionKey: false
 })
 
-const ChattingModel = mongoose.model('chatting', ChattingSchema, 'chatting')
+const ChattingModel = mongo.model('chatting', ChattingSchema, 'chatting')
 
 export const matching = mysql.transaction(async (con: any, userId: string, udid: string, type: string) => {
   const pointCode = (type === 'DIFFERENT_GENDER') ? PointCode.MATCHING_DIFFERENT_GENDER : PointCode.MATCHING_EVERYONE
@@ -50,6 +50,18 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
       await pointModel.addPoint(targetUser.id, pointCode)
       await con.query(DML.INSERT_MATCHING, [userId, type, user.gender])
       await con.query(DML.UPDATE_MATCHING, [targetUser.id])
+
+      const chatting = new ChattingModel({
+        user_ids: [user.id, targetUser.id],
+        messages: [{
+          type: 'TEXT',
+          data: '새로운 대화가 시작되었습니다.',
+          datetime: new Date()
+        }]
+      })
+
+      const inserted = await chatting.save()
+      console.log(inserted)
 
       // TODO: mongodb에 채팅방 insert
       // TODO: 양쪽 모두에게 push 발송 (방번호)

@@ -3,6 +3,7 @@ import { mysqlConfig, mongoConfig } from '../config/env'
 const promiseMysql = require('promise-mysql')
 
 let pool: any = null
+let mongooseCon: any = null
 
 export const init = async () => {
   pool = await promiseMysql.createPool({
@@ -13,7 +14,7 @@ export const init = async () => {
     database: 'molangtalk'
   })
 
-  await mongoose.connect(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
+  mongooseCon = await mongoose.connect(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -44,3 +45,8 @@ export namespace mysql {
     return result
   }
 }
+
+export const mongo = mongoose.createConnection(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
