@@ -1,3 +1,4 @@
+import moment from 'moment'
 import mongoose from 'mongoose'
 import { mysqlConfig, mongoConfig } from '../config/env'
 const promiseMysql = require('promise-mysql')
@@ -50,3 +51,5 @@ export const mongo = mongoose.createConnection(`mongodb://${mongoConfig.MONGO_US
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+
+export const now = () => moment().utcOffset(540).format('YYYY-MM-DD HH:mm:ss.SSS')
