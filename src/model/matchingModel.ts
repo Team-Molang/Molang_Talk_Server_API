@@ -15,7 +15,13 @@ enum PointCode {
 }
 
 const ChattingSchema = new mongoose.Schema({
-  user_ids: [Number],
+  users: [new mongoose.Schema({
+    user_id: Number,
+    nick_name: String,
+    gender: String,
+    age: Number,
+    profile: String
+  })],
   messages: [new mongoose.Schema({
     type: String,
     data: String,
@@ -52,7 +58,10 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
       await con.query(DML.UPDATE_MATCHING, [targetUser.id])
 
       const chatting = new ChattingModel({
-        user_ids: [user.id, targetUser.id],
+        users: [
+          { user_id: user.id, nick_name: user.nickName, gender: user.gender, age: user.age, profile: user.profile },
+          { user_id: targetUser.id, nick_name: targetUser.nickName, gender: targetUser.gender, age: targetUser.age, profile: targetUser.profile }
+        ],
         messages: [{
           type: 'TEXT',
           data: '새로운 대화가 시작되었습니다.',
@@ -60,10 +69,7 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
         }]
       })
 
-      const inserted = await chatting.save()
-      console.log(inserted)
-
-      // TODO: mongodb에 채팅방 insert
+      await chatting.save()
       // TODO: 양쪽 모두에게 push 발송 (방번호)
     }
   }
