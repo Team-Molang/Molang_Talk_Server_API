@@ -4,6 +4,7 @@ import ServerError from '../error/serverError'
 import BadRequestError from '../error/badRequest'
 import NotFoundError from '../error/notFoundError'
 import { DML } from './'
+import * as fcmManager from '../manager/fcmManager'
 
 import * as userDomain from '../domain/userDomain'
 import * as pointModel from './pointModel'
@@ -69,8 +70,15 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
         }]
       })
 
-      await chatting.save()
-      // TODO: 양쪽 모두에게 push 발송 (방번호)
+      const matchingRoom = await chatting.save()
+      const title = '매칭이 완료되었습니다.'
+      const body = '지금 바로 새로운 대화를 시작해보세요.'
+      if (user.pushKey) {
+        await fcmManager.send(title, body, user.pushKey, { chattingRoomId: matchingRoom._id })
+      }
+      if (targetUser.pushKey) {
+        await fcmManager.send(title, body, targetUser.pushKey, { chattingRoomId: matchingRoom._id })
+      }
     }
   }
 })

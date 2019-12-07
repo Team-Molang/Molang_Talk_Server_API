@@ -14,3 +14,7 @@ export const mongoConfig = {
   MONGO_USER: (process.env.MONGO_USER) ? process.env.MONGO_USER : '',
   MONGO_PASSWORD: (process.env.MONGO_PASSWORD) ? process.env.MONGO_PASSWORD : ''
 }
+
+export const fcmConfig = {
+  FCM_CREDENTIAL: (process.env.FCM_CREDENTIAL) ? process.env.FCM_CREDENTIAL : ''
+}

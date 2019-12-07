@@ -21,6 +21,7 @@ export interface IUser {
   point: number
   profile?: string
   regDate: string
+  pushKey?: string
 }
 
 export interface IJoinUser {
@@ -85,7 +86,8 @@ export const get = async (id: string, udid: string): Promise<IUser> => {
     age: user.age,
     point: user.point,
     profile: user.profile,
-    regDate: user.reg_date
+    regDate: user.reg_date,
+    pushKey: user.push_key
   }
 }
 

@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 import express from 'express'
 import * as swaggerUI from 'swagger-ui-express'
 import * as jsdoc from './config/swagger'
