@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { mysql, mongo } from '../manager/databaseManager'
+import { mysql, mongo, now } from '../manager/databaseManager'
 import ServerError from '../error/serverError'
 import BadRequestError from '../error/badRequest'
 import NotFoundError from '../error/notFoundError'
@@ -65,7 +65,7 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
         messages: [{
           type: 'TEXT',
           data: '새로운 대화가 시작되었습니다.',
-          datetime: new Date()
+          datetime: now()
         }]
       })
 
