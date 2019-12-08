@@ -70,15 +70,15 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
         }]
       })
 
-      const matchingRoom = await chatting.save()
+      const chattingRoomId = await chatting.save()
       const title = '매칭이 완료되었습니다.'
       const body = '지금 바로 새로운 대화를 시작해보세요.'
 
       if (user.pushKey) {
-        await fcmManager.send(title, body, user.pushKey, { chattingRoomId: matchingRoom.id })
+        await fcmManager.send(title, body, user.pushKey, { chattingRoomId: chattingRoomId.id })
       }
       if (targetUser.pushKey) {
-        await fcmManager.send(title, body, targetUser.pushKey, { chattingRoomId: matchingRoom.id })
+        await fcmManager.send(title, body, targetUser.pushKey, { chattingRoomId: chattingRoomId.id })
       }
     }
   }
