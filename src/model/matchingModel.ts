@@ -43,18 +43,18 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
 
   const matchingTarget = (type === 'DIFFERENT_GENDER') ?
     await con.query(DML.GET_DIFFERENT_GENDER_MATCHING, [userId, user.gender]) :
-    await con.query(DML.GET_EVERYONE_MATCHING, [userId])
+    await con.query(DML.GET_EVERYONE_MATCHING, [userId, user.gender])
 
   if (matchingTarget.length < 1) {
     await con.query(DML.INSERT_NEW_MATCHING, [userId, type, user.gender])
   } else {
-    const targetUser = await userModel.getUser(matchingTarget[0].user_id)
+    const targetUser = await userDomain.get(matchingTarget[0].user_id)
     if (targetUser.point < (-matchingPoint)) {
       await con.query(DML.UPDATE_CANCEL_MATCHING, [targetUser.id])
       await con.query(DML.INSERT_NEW_MATCHING, [userId, type, user.gender])
     } else {
       await pointModel.addPoint(user.id, pointCode)
-      await pointModel.addPoint(targetUser.id, pointCode)
+      await pointModel.addPoint(targetUser.id, pointCode) // TODO: 상대가 신청한 타입의 포인트 차감
       await con.query(DML.INSERT_MATCHING, [userId, type, user.gender])
       await con.query(DML.UPDATE_MATCHING, [targetUser.id])
 

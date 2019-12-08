@@ -75,10 +75,10 @@ export const addPoint = async (id: number, pointCode: PointCode): Promise<void> 
   await pointModel.addPoint(id, pointCode)
 }
 
-export const get = async (id: string, udid: string): Promise<IUser> => {
+export const get = async (id: string, udid?: string): Promise<IUser> => {
   const user = await userModel.getUser(id)
   if (!user) throw new NotFoundError('회원 정보를 찾을 수 없습니다.')
-  if (user.udid !== udid) throw new UnauthorizedError('권한이 없습니다.')
+  if (udid && user.udid !== udid) { throw new UnauthorizedError('권한이 없습니다.') }
   return {
     id: user.id,
     nickName: user.nick_name,
