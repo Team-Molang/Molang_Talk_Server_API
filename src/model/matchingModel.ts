@@ -27,7 +27,8 @@ const ChattingSchema = new mongoose.Schema({
     type: String,
     data: String,
     datetime: String
-  })]
+  })],
+  ing: Boolean
 }, {
   versionKey: false
 })
@@ -67,7 +68,8 @@ export const matching = mysql.transaction(async (con: any, userId: string, udid:
           type: 'TEXT',
           data: '새로운 대화가 시작되었습니다.',
           datetime: now()
-        }]
+        }],
+        ing: true
       })
 
       const chattingRoomId = await chatting.save()
