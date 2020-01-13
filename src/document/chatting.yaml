@@ -16,7 +16,7 @@ tags:
       - name: userId
         in: query
         required: true
-        type: string
+        type: number
         description: 회원 아이디
     responses:
       200:
