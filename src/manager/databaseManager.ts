@@ -15,7 +15,7 @@ export const init = async () => {
     database: 'molangtalk'
   })
 
-  mongooseCon = await mongoose.connect(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
+  mongooseCon = await mongoose.connect(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/${mongoConfig.MONGO_DATABASE}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -47,7 +47,7 @@ export namespace mysql {
   }
 }
 
-export const mongo = mongoose.createConnection(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/molangtalk`, {
+export const mongo = mongoose.createConnection(`mongodb://${mongoConfig.MONGO_USER}:${mongoConfig.MONGO_PASSWORD}@${mongoConfig.MONGO_HOST}/${mongoConfig.MONGO_DATABASE}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

@@ -28,7 +28,7 @@ router.get('/',
     valid()
   ],
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const userId = req.query.userId
+    const userId = req.query.userId as string
     const udid = req.headers.authorization
     res.status(200).send({
       isMatching: await matchingDomain.isMatching(userId, udid)

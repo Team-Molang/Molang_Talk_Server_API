@@ -16,7 +16,7 @@ router.get('/',
     valid()
   ],
   asyncFn(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const { userId } = req.query
+    const userId = req.query.userId as string
     const udid = req.headers.authorization
     await userDomain.get(userId, udid)
     res.status(200).send(await chattingDomain.getMyChattings(userId))

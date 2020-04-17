@@ -21,7 +21,7 @@ const ChattingSchema = new mongoose.Schema({
 
 const ChattingModel = mongo.model('chatting', ChattingSchema, 'chatting')
 
-export const getMyChattings = (userId: number) => {
+export const getMyChattings = (userId: string) => {
   return new Promise((resolve, reject) => {
     ChattingModel.find({ 'users.user_id': userId }, (err: Error, res: any) => {
       if (err) return reject(err)

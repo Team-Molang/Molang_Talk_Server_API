@@ -16,7 +16,7 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'talk.amolang.shop',
+    bucket: process.env.BUCKET_NAME,
     acl: 'public-read-write',
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname })
@@ -41,11 +41,11 @@ router.post('/',
       originalname: req.file.originalname,
       mimetype: req.file.mimetype,
       size: req.file.size,
-      location: req.file.location,
+      location: req.file.path,
       udid: udid
     })
     res.status(200).send({
-      url: req.file.location
+      url: req.file.path
     })
   })
 )

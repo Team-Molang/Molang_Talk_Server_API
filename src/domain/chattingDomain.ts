@@ -21,7 +21,7 @@ interface IMessage {
   datetime: string
 }
 
-export const getMyChattings = async (userId: number): Promise<IChatting[]> => {
+export const getMyChattings = async (userId: string): Promise<IChatting[]> => {
   const myChattings = await chattingModel.getMyChattings(userId)
   console.log(myChattings)
   return []
